@@ -20,10 +20,7 @@ type Server struct {
 // NewServer creates a new server for the application
 func NewServer(cfg *config.Config) (*Server, error) {
 	// Initialize logger
-	log, err := logger.NewLogger()
-	if err != nil {
-		return nil, logger.WrapError(err, "failed to initialize logger")
-	}
+	log := logger.NewLogger()
 
 	// Initialize MongoDB
 	mongoClient, err := database.NewMongoClient(cfg.MongoDB.MongoURI, cfg.MongoDB.Timeout)
