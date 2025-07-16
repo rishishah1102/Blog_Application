@@ -83,20 +83,21 @@ func TestCreateBlogPost(t *testing.T) {
 				logger: log,
 			}
 
-			// Create Gin router
 			gin.SetMode(gin.TestMode)
 			router := gin.Default()
 			router.POST("/api/blog-post", api.CreateBlogPost)
 
-			reqBody, _ := json.Marshal(tt.requestBody)
-			req, _ := http.NewRequest("POST", "/api/blog-post", bytes.NewBuffer(reqBody))
+			reqBody, err := json.Marshal(tt.requestBody)
+			assert.NoError(t, err)
+			req, err := http.NewRequest("POST", "/api/blog-post", bytes.NewBuffer(reqBody))
+			assert.NoError(mt, err)
 			w := httptest.NewRecorder()
 			router.ServeHTTP(w, req)
 
 			assert.Equal(mt, tt.expectedStatus, w.Code)
 
 			var response map[string]interface{}
-			err := json.Unmarshal(w.Body.Bytes(), &response)
+			err = json.Unmarshal(w.Body.Bytes(), &response)
 			assert.NoError(mt, err)
 
 			if tt.expectedError != "" {
