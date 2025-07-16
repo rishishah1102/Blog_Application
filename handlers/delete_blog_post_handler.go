@@ -11,6 +11,18 @@ import (
 )
 
 // DeleteBlogPost deletes a blog post for a given ID
+
+// @Summary Delete a blog post
+// @Description Delete a blog post by ID
+// @Tags blog
+// @Accept json
+// @Produce json
+// @Param id path string true "Blog Post ID"
+// @Success 200 {object} models.DeleteBlogPostSuccessResponse
+// @Failure 400 {object} models.ErrorResponse
+// @Failure 404 {object} models.ErrorResponse
+// @Failure 500 {object} models.ErrorResponse
+// @Router /api/blog-post/{id} [delete]
 func (a *API) DeleteBlogPost(c *gin.Context) {
 	id := c.Param("id")
 
@@ -33,5 +45,8 @@ func (a *API) DeleteBlogPost(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "blog post deleted successfully"})
+	c.JSON(http.StatusOK, gin.H{
+		"message": "blog post deleted successfully",
+		"blogID":  id,
+	})
 }

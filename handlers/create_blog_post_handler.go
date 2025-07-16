@@ -12,6 +12,17 @@ import (
 )
 
 // CreateBlogPost creates a blog post
+
+// @Summary Create a new blog post
+// @Description Create a new blog post
+// @Tags blog
+// @Accept json
+// @Produce json
+// @Param blog body models.BlogPostRequest true "Blog Post"
+// @Success 201 {object} models.CreateBlogPostSuccessResponse
+// @Failure 400 {object} models.ErrorResponse
+// @Failure 500 {object} models.ErrorResponse
+// @Router /api/blog-post [post]
 func (a *API) CreateBlogPost(c *gin.Context) {
 	var blog models.BlogPost
 	if err := c.ShouldBindJSON(&blog); err != nil {

@@ -1,0 +1,242 @@
+definitions:
+  models.BlogPost:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      image:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+    required:
+    - description
+    - image
+    - title
+    type: object
+  models.BlogPostRequest:
+    properties:
+      description:
+        example: This is the sample description of blog
+        type: string
+      image:
+        example: https://sample-image.png
+        type: string
+      title:
+        example: Blog-1
+        type: string
+    type: object
+  models.CreateBlogPostSuccessResponse:
+    properties:
+      blog:
+        $ref: '#/definitions/models.BlogPost'
+      message:
+        example: successfully created the blog
+        type: string
+    type: object
+  models.DeleteBlogPostSuccessResponse:
+    properties:
+      blogID:
+        example: 6876a210c3abc4d716fb11d8
+        type: string
+      message:
+        example: blog post deleted successfully
+        type: string
+    type: object
+  models.ErrorResponse:
+    properties:
+      error:
+        example: error message
+        type: string
+    type: object
+  models.GetAllBlogPostsSuccessResponse:
+    properties:
+      blog:
+        items:
+          $ref: '#/definitions/models.BlogPost'
+        type: array
+      message:
+        example: successfully fetched all the blogs
+        type: string
+    type: object
+  models.GetBlogPostByIDSuccessResponse:
+    properties:
+      blog:
+        $ref: '#/definitions/models.BlogPost'
+      blogID:
+        example: 6876a210c3abc4d716fb11d8
+        type: string
+      message:
+        example: successfully fetched a blog
+        type: string
+    type: object
+  models.UpdateBlogPostSuccessResponse:
+    properties:
+      blog:
+        $ref: '#/definitions/models.BlogPost'
+      blogID:
+        example: 6876a210c3abc4d716fb11d8
+        type: string
+      message:
+        example: successfully updated a blog
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /api/blog-post:
+    get:
+      consumes:
+      - application/json
+      description: Get all blog posts
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.GetAllBlogPostsSuccessResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      summary: Get all blog posts
+      tags:
+      - blog
+    post:
+      consumes:
+      - application/json
+      description: Create a new blog post
+      parameters:
+      - description: Blog Post
+        in: body
+        name: blog
+        required: true
+        schema:
+          $ref: '#/definitions/models.BlogPostRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.CreateBlogPostSuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      summary: Create a new blog post
+      tags:
+      - blog
+  /api/blog-post/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a blog post by ID
+      parameters:
+      - description: Blog Post ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.DeleteBlogPostSuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      summary: Delete a blog post
+      tags:
+      - blog
+    get:
+      consumes:
+      - application/json
+      description: Get a single blog post by ID
+      parameters:
+      - description: Blog Post ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.GetBlogPostByIDSuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      summary: Get a blog post by ID
+      tags:
+      - blog
+    patch:
+      consumes:
+      - application/json
+      description: Update a blog post by ID
+      parameters:
+      - description: Blog Post ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Blog Post
+        in: body
+        name: blog
+        required: true
+        schema:
+          $ref: '#/definitions/models.BlogPostRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.UpdateBlogPostSuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      summary: Update a blog post
+      tags:
+      - blog
+swagger: "2.0"

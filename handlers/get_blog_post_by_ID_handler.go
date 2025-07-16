@@ -13,6 +13,18 @@ import (
 )
 
 // GetBlogPostByID fetches a blog for a given ID
+
+// @Summary Get a blog post by ID
+// @Description Get a single blog post by ID
+// @Tags blog
+// @Accept json
+// @Produce json
+// @Param id path string true "Blog Post ID"
+// @Success 200 {object} models.GetBlogPostByIDSuccessResponse
+// @Failure 400 {object} models.ErrorResponse
+// @Failure 404 {object} models.ErrorResponse
+// @Failure 500 {object} models.ErrorResponse
+// @Router /api/blog-post/{id} [get]
 func (a *API) GetBlogPostByID(c *gin.Context) {
 	id := c.Param("id")
 
@@ -38,5 +50,6 @@ func (a *API) GetBlogPostByID(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"message": "successfully fetched a blog",
 		"blog":    blog,
+		"blogID":  id,
 	})
 }

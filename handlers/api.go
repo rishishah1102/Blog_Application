@@ -2,8 +2,12 @@ package handlers
 
 import (
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.uber.org/zap"
+
+	_ "blog-application/docs"
 )
 
 // API is the struct for all the handlers
@@ -38,4 +42,6 @@ func (a *API) RegisterRoutes(router *gin.Engine) {
 		blogRoutes.PATCH("/:id", a.UpdateBlogPost)
 		blogRoutes.DELETE("/:id", a.DeleteBlogPost)
 	}
+
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 }

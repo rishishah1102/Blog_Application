@@ -13,6 +13,19 @@ import (
 )
 
 // UpdateBlogPost modifies a blog post for a given ID
+
+// @Summary Update a blog post
+// @Description Update a blog post by ID
+// @Tags blog
+// @Accept json
+// @Produce json
+// @Param id path string true "Blog Post ID"
+// @Param blog body models.BlogPostRequest true "Blog Post"
+// @Success 200 {object} models.UpdateBlogPostSuccessResponse
+// @Failure 400 {object} models.ErrorResponse
+// @Failure 404 {object} models.ErrorResponse
+// @Failure 500 {object} models.ErrorResponse
+// @Router /api/blog-post/{id} [patch]
 func (a *API) UpdateBlogPost(c *gin.Context) {
 	id := c.Param("id")
 
@@ -63,5 +76,6 @@ func (a *API) UpdateBlogPost(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"message": "successfully updated a blog",
 		"blog":    updatedBlog,
+		"blogID":  id,
 	})
 }

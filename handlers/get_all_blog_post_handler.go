@@ -11,6 +11,15 @@ import (
 )
 
 // GetAllBlogPosts fetches all the blog posts
+
+// @Summary Get all blog posts
+// @Description Get all blog posts
+// @Tags blog
+// @Accept json
+// @Produce json
+// @Success 200 {object} models.GetAllBlogPostsSuccessResponse
+// @Failure 500 {object} models.ErrorResponse
+// @Router /api/blog-post [get]
 func (a *API) GetAllBlogPosts(c *gin.Context) {
 	var blogs = make([]models.BlogPost, 0)
 
